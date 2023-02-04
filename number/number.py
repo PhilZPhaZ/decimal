@@ -32,9 +32,3 @@ class Number:
             self._number_list[1] = int(f'{str(self._number_list[1])}0')
         while len(str(other._number_list[1])) != self._max_decimal:
             other._number_list[1] = int(f'{str(other._number_list[1])}0')
-    
-    
-n1 = Number(0.1)
-n2 = Number(0.2)
-
-print(n1 + n2)
