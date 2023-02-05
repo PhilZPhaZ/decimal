@@ -23,12 +23,25 @@ class Number:
             
         return f'{self._number}.{self._decimal}'
     
+    # ---------- Subtraction ----------
+    def __sub__(self, other):
+        pass
+            
+    
     # ---------- Other Methods ----------
     def _get_max_decimal(self, other):
         return self._number_of_decimal if self._number_of_decimal > other._number_of_decimal else other._number_of_decimal
 
     def _add_zero(self, other):
-        while len(str(self._number_list[1])) != self._max_decimal:
-            self._number_list[1] = int(f'{str(self._number_list[1])}0')
-        while len(str(other._number_list[1])) != self._max_decimal:
-            other._number_list[1] = int(f'{str(other._number_list[1])}0')
+        if self._number_list[1] != 0:
+            while len(str(self._number_list[1])) != self._max_decimal:
+                self._number_list[1] = int(f'{str(self._number_list[1])}0')
+        elif other._number_list[1] != 0:
+            while len(str(other._number_list[1])) != self._max_decimal:
+                other._number_list[1] = int(f'{str(other._number_list[1])}0')
+            
+
+n1 = Number(2.7)
+n2 = Number(10)
+
+print(n1 - n2)
