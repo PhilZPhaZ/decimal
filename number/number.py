@@ -51,6 +51,8 @@ class Number:
             elif self._decimal < 0 and self._number > 0:
                 self._number -= 1
                 self._decimal = 10**self._max_decimal_n - abs(self._decimal)
+            elif self._decimal < 0 and self._number == 0:
+                print('ok')
         
         self._number_final = [str(self._number), self._complete_zeros(self._decimal)]
         return self._number_final
@@ -62,7 +64,7 @@ class Number:
     
     # ---------- Other Methods ----------
     def _complete_zeros(self, decimal):
-        self._decimal_zeros = self._decimal
+        self._decimal_zeros = abs(self._decimal)
         while len(str(self._decimal_zeros)) != self._max_decimal_n:
             self._decimal_zeros = f'0{self._decimal_zeros}'
         return str(self._decimal_zeros)
@@ -87,6 +89,6 @@ class Number:
                 other._number_list[1] = int(f'{str(other._number_list[1])}0')
     
 
-n1 = Number(-15.652)
-n2 = Number(7.7)
+n1 = Number(15.5)
+n2 = Number(15.5)
 print(n1 + n2)
