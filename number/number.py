@@ -44,12 +44,16 @@ class Number:
             self._find_signe(other)
             self._number = abs(self._number_list[0]) - abs(other._number_list[0])
             self._decimal = abs(self._decimal_signe) - abs(other._decimal_signe)
-            print(self._decimal)
-            if self._decimal < 0 and self._number > 0:
+
+            if self._decimal < 0 and self._number < 0:
+                self._number = self._number
+                self._decimal = self._decimal
+            elif self._decimal < 0 and self._number > 0:
                 self._number -= 1
                 self._decimal = 10**self._max_decimal_n - abs(self._decimal)
-            
-        return self._number, self._decimal
+        
+        self._number_final = [str(self._number), self._complete_zeros(self._decimal)]
+        return self._number_final
 
     # ---------- Subtraction ----------
     def __sub__(self, other):
@@ -57,6 +61,12 @@ class Number:
             
     
     # ---------- Other Methods ----------
+    def _complete_zeros(self, decimal):
+        self._decimal_zeros = self._decimal
+        while len(str(self._decimal_zeros)) != self._max_decimal_n:
+            self._decimal_zeros = f'0{self._decimal_zeros}'
+        return str(self._decimal_zeros)
+    
     def _find_signe(self, other):
         self._number1 = float(self._value)
         self._number2 = float(other._value)
@@ -66,7 +76,7 @@ class Number:
             self._signe = other._signe
     
     def _get_max_decimal(self, other):
-        self._max_decimal_n = self._number_of_decimal if self._number_of_decimal > other._number_of_decimal else other._number_of_decimal
+        self._max_decimal_n = max(self._number_of_decimal, other._number_of_decimal)
 
     def _add_zeros(self, other):
         if self._number_list[1] != 0:
@@ -77,6 +87,6 @@ class Number:
                 other._number_list[1] = int(f'{str(other._number_list[1])}0')
     
 
-n1 = Number(-5.5)
-n2 = Number(7.5)
+n1 = Number(-15.652)
+n2 = Number(7.7)
 print(n1 + n2)
