@@ -14,10 +14,10 @@ class Number:
     def __add__(self, other):  # sourcery skip: low-code-quality
         self._get_max_decimal(other)
         self._add_zeros(other)
-        
+
         self._decimal_signe = self._number_list[1] if float(self._value) > 0 else -self._number_list[1]
         other._decimal_signe = other._number_list[1] if float(other._value) > 0 else -other._number_list[1]
-        
+
         # positif - positif
         if self._number_list[0] > 0 and other._number_list[0] > 0:
             self._number = self._number_list[0] + other._number_list[0]
@@ -26,34 +26,43 @@ class Number:
             if self._decimal >= 10**self._max_decimal_n:
                 self._decimal = int(str(self._decimal)[1:])
                 self._number += 1
-        # negatif - negatif
         elif self._number_list[0] < 0 and other._number_list[0] < 0:
             self._number = abs(self._number_list[0]) + abs(other._number_list[0])
             self._decimal = self._number_list[1] + other._number_list[1]
-            
+
             if self._decimal >= 10**self._max_decimal_n:
                 self._decimal = int(str(self._decimal)[1:])
                 self._number += 1
             self._number = -self._number
-        # 0 - 0
-        elif self._number_list[0] == 0 or other._number_list[1] == 0:
-            self._number = 0
-            self._decimal = 0
-        # positif - negatif | negatif - positif
+        elif self._number_list[0] == 0 or other._number_list[0] == 0:
+            self._find_signe(other)
+            self._number = self._number_list[0] + other._number_list[0]
+            self._decimal = self._decimal_signe + other._decimal_signe
+
+            print(self._number, self._decimal)
+            
+            if self._decimal < 0:
+                if self._number < 0:
+                    self._number = self._number
+                    self._decimal = self._decimal
+                elif self._number > 0:
+                    self._number -= 1
+                    self._decimal = 10**self._max_decimal_n - abs(self._decimal)
+            elif self._decimal > 0:
+                self._number += 1
+                self._decimal = int(str(self._decimal)[1:])
         else:
             self._find_signe(other)
             self._number = abs(self._number_list[0]) - abs(other._number_list[0])
             self._decimal = abs(self._decimal_signe) - abs(other._decimal_signe)
 
-            if self._decimal < 0 and self._number < 0:
-                self._number = self._number
-                self._decimal = self._decimal
-            elif self._decimal < 0 and self._number > 0:
-                self._number -= 1
-                self._decimal = 10**self._max_decimal_n - abs(self._decimal)
-            elif self._decimal < 0 and self._number == 0:
-                print('ok')
-        
+            if self._decimal < 0:
+                if self._number < 0:
+                    self._number = self._number
+                    self._decimal = self._decimal
+                elif self._number > 0:
+                    self._number -= 1
+                    self._decimal = 10**self._max_decimal_n - abs(self._decimal)
         self._number_final = [str(self._number), self._complete_zeros(self._decimal)]
         return self._number_final
 
@@ -89,6 +98,6 @@ class Number:
                 other._number_list[1] = int(f'{str(other._number_list[1])}0')
     
 
-n1 = Number(15.5)
-n2 = Number(15.5)
+n1 = Number(-0.2)
+n2 = Number(-1.91)
 print(n1 + n2)
